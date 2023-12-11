@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Leaf Disease Classifier</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="flex flex-col justify-center items-center">
+        <h1 class="text-2xl font-bold mb-8 text-center">Apple Leaf Disease Classifier</h1>
+        <h3 class="mb-4 font-semibold">Total Parameters: 8,653,060</h3>
+        <h3 class="mb-4 font-semibold">Overall Accuracy: 97.8383%</h3>
+        <h3 class="mb-8 font-semibold">Dataset Description: New Plant Diseases Dataset (Kaggle)</h3>
+        <form class="p-3 text-center" action="/", method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="customFile" class="block text-md font-medium text-gray-700">Choose file</label>
+                <div class="mt-1">
+                    <input type="file" class="focus:border-indigo-500 w-full shadow-sm border rounded-md my-5" id="customFile" name="file" required onchange="displaySelectedImage()">
+                </div>
+            </div>
+            <input class="bg-indigo-500 text-white py-2 px-4 rounded mt-3 cursor-pointer" type="submit" value="Predict">
+        </form>
+        <div id="imagePreview" class="hidden mt-5">
+            <h2 class="text-xl font-bold mb-2">Selected Image:</h2>
+            <img id="selectedImage" src="" alt="Selected Image">
+        </div>
+        {% if result_label %}
+            <h2 class="text-center" id="resultLabel"> Leaf is a {{result_label}}</h2>
+        {% endif %}
+    </div>
+    <script>
+        function clearResultLabel() {
+            var resultLabel = document.getElementById('resultLabel');
+            if (resultLabel) {
+                resultLabel.innerHTML = "";
+            }
+        }
+        function displaySelectedImage() {
+            clearResultLabel();  // Clear the result label
+            var input = document.getElementById('customFile');
+            var preview = document.getElementById('imagePreview');
+            var image = document.getElementById('selectedImage');
+    
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+    
+                reader.onload = function(e) {
+                    image.src = e.target.result;
+                    preview.classList.remove('hidden');
+                }
+    
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>    
+</body>
+</html>
